@@ -1,5 +1,12 @@
 ---
 title: Surelog 一键安装脚本
+date: 2025-08-17 11:15:00
+categories: 工具
+tags:
+  - Surelog
+  - SystemVerilog
+  - 安装教程
+  - EDA工具
 ---
 # Surelog 一键安装脚本
 

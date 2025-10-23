@@ -5,18 +5,20 @@
 # 4. 执行命令：hexo clean && hexo g && hexo s 直接查看页面效果
 menu:
   首页: /  #需要hexo new page index,在index/index.md填写的内容将会展现在首页上
-  文章: /list/ # 需要hexo new page list
-  # 添加其他页面格式举例：
-  关于: /about/ # 需要hexo new page about
+  研究成果: /publications/ # 论文、专利、学术报告
+  研究项目: /projects/ # 在研/已完成项目
+  技术博客: /blog/ # 学习笔记、CTF、技术分析
+  资源工具: /resources/ # 工具集、数据集
+  关于我: /about/ # 个人简历、联系方式
   # 标签: /tags/ #需要hexo new page tags
   # 分类: /categories/ # 需要hexo new page categories
-  # ...
 # 首页你想要展示的menu链接，注意当你修改了menu中的别名，这里要随着更改，不然你会疑惑怎么首页没有修改后的别名
-showInMenu:  # menu 中的哪些页面显示在首页中（“首页”必定显示）
-  - 文章  # 将在首页显示 文章 链接
-  - 关于
-  # - 标签
-  # - 分类
+showInMenu:  # menu 中的哪些页面显示在首页中（"首页"必定显示）
+  - 研究成果
+  - 研究项目
+  - 技术博客
+  - 资源工具
+  - 关于我
 
 index:  # 首页相关配置
   header:  # 首页的页眉 以及 404页面，当你没开启一言，将会每次刷新页面随机展示下面的语句
@@ -186,7 +188,6 @@ comment:
     server:  # Artalk 后端地址
 
 inject:
-  head:
-    - <link rel="stylesheet" href="/css/custom.css">
+  css: css/custom.css # 找到该文件后,编写你的css样式,每个页面都会自动引入
 
 version: v2.0.0

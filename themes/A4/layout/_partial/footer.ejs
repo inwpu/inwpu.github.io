@@ -211,6 +211,10 @@
     <%- js('js/lightgallery/plugins/lg-zoom.umd.min.js') %>
     <%- js('js/lightgallery/plugins/lg-rotate.umd.min.js') %>
     <%- js('js/lightgallery/plugins/lg-paper.umd.min.js') %>
+
+    <!-- 🌟 粒子动画效果 -->
+    <%- js('js/particles.js') %>
+
     <!-- 🌐 访客信息浮动框（玻璃拟态 + 可折叠） -->
     <div id="site-stats-float" class="glass visible">
         <ul>
@@ -226,6 +230,12 @@
             <li>💻 系统：<span id="os">加载中...</span></li>
             <li>🌐 浏览器：<span id="browser">加载中...</span></li>
             <li>📱 设备：<span id="device">加载中...</span></li>
+            <li>📐 屏幕分辨率：<span id="screen-res">加载中...</span></li>
+            <li>🌏 语言偏好：<span id="language">加载中...</span></li>
+            <li>🕐 时区：<span id="timezone">加载中...</span></li>
+            <li>🎨 色彩深度：<span id="color-depth">加载中...</span></li>
+            <li>🔗 来源页面：<span id="referrer">加载中...</span></li>
+            <li>📶 网络状态：<span id="connection">加载中...</span></li>
             <li>⏰ 当前时间：<span id="nowtime">加载中...</span></li>
             <li>📅 页面更新：<%= new Date().toLocaleString() %></li>
         </ul>
@@ -257,7 +267,9 @@
         bottom: 20px;
         right: 20px;
         padding: 16px 20px;
-        max-width: 300px;
+        max-width: 320px;
+        max-height: 80vh;
+        overflow-y: auto;
         font-size: 13px;
         border-radius: 16px;
         backdrop-filter: blur(12px);
@@ -270,6 +282,22 @@
         transition: opacity 0.3s ease, transform 0.3s ease;
     }
 
+    /* 滚动条样式 */
+    #site-stats-float::-webkit-scrollbar {
+        width: 6px;
+    }
+    #site-stats-float::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+    #site-stats-float::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+    }
+    #site-stats-float::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
     #site-stats-float ul {
         padding: 0;
         margin: 0;
@@ -277,6 +305,7 @@
     #site-stats-float li {
         list-style: none;
         margin-bottom: 6px;
+        word-break: break-word;
     }
 </style>
 
@@ -356,6 +385,39 @@
     }
     updateTime();
     setInterval(updateTime, 1000);
+
+    // 屏幕分辨率
+    document.getElementById('screen-res').textContent = screen.width + ' × ' + screen.height;
+
+    // 语言偏好
+    document.getElementById('language').textContent = navigator.language || navigator.userLanguage || '未知';
+
+    // 时区
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById('timezone').textContent = timezone || '未知';
+
+    // 色彩深度
+    document.getElementById('color-depth').textContent = screen.colorDepth + ' 位';
+
+    // 来源页面
+    const referrer = document.referrer || '直接访问';
+    document.getElementById('referrer').textContent = referrer === '' ? '直接访问' :
+        (referrer.length > 30 ? referrer.substring(0, 30) + '...' : referrer);
+
+    // 网络状态
+    function updateConnectionStatus() {
+        const online = navigator.onLine ? '在线' : '离线';
+        let connType = '未知';
+        if (navigator.connection || navigator.mozConnection || navigator.webkitConnection) {
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            connType = conn.effectiveType || conn.type || '未知';
+        }
+        document.getElementById('connection').textContent = online + ' (' + connType + ')';
+    }
+    updateConnectionStatus();
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+
     // 🌟 收起 / 展开控制
     function toggleStats() {
         const statsBox = document.getElementById('site-stats-float');
@@ -386,6 +448,3 @@
 
 </script>
 
-<% if(theme.postInfo.viewCount) { %>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<% } %>
